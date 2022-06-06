@@ -19,7 +19,12 @@ const MISSING_TEMPLATE = fs.readFileSync(
 const DEFAULT_IGNORES = ["firebase.json", "**/.*", "**/node_modules/**"];
 
 module.exports = function (setup, config, options) {
-  setup.hosting = {};
+  setup.hosting = {
+    nonInteractive: options.nonInteractive,
+    public: options.interactiveAnswers?.public,
+    spa: options.interactiveAnswers?.spa,
+    github: options.interactiveAnswers?.github,
+  };
 
   logger.info();
   logger.info(
