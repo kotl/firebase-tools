@@ -69,7 +69,11 @@ module.exports = function (setup, config, options) {
       next = Promise.resolve();
     } else {
       // SPA doesn't need a 404 page since everything is index.html
-      next = config.askWriteProjectFile(setup.hosting.public + "/404.html", MISSING_TEMPLATE);
+      next = config.askWriteProjectFile(
+        setup.hosting.public + "/404.html",
+        MISSING_TEMPLATE,
+        options.nonInteractive
+      );
     }
 
     return next
@@ -80,7 +84,8 @@ module.exports = function (setup, config, options) {
       .then((response) => {
         return config.askWriteProjectFile(
           setup.hosting.public + "/index.html",
-          INDEX_TEMPLATE.replace(/{{VERSION}}/g, response.body.current.version)
+          INDEX_TEMPLATE.replace(/{{VERSION}}/g, response.body.current.version),
+          options.nonInteractive
         );
       })
       .then(() => {
